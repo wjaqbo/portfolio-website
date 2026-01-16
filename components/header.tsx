@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <header className="flex h-16 w-full items-center justify-between bg-linear-to-r from-orange-700 to-purple-700 px-6">
       <OffcanvasMenu />
-      <div className="mr-auto ml-2 inline-block rounded-2xl border-2 p-1 text-3xl font-extrabold">
+      <div className="mr-auto ml-2 inline-block rounded-2xl p-1 text-3xl font-extrabold">
         ai<span className="text-sm">TV</span>
       </div>
       {/* <nav>
