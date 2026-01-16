@@ -1,11 +1,13 @@
+import { ContactForm } from "@/components/forms/contact";
 import Hero from "@/components/hero";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <>
       <section className="w-full max-w-5xl px-10 pt-20">
         <h1 className="text-4xl font-extrabold">Do you have a question?</h1>
-        <form className="flex flex-col gap-10 py-20">
+        {/* <form className="flex flex-col gap-10 py-20">
           <input
             type="text"
             placeholder="Your name"
@@ -23,8 +25,9 @@ export default function Home() {
             className="rounded-xl border px-3 py-2"
             required
           />
-          <button type="submit">Send</button>
-        </form>
+          <Button type="submit">Send</Button>
+        </form> */}
+        <ContactForm />
       </section>
 
       <Hero />

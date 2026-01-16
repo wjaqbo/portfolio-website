@@ -38,7 +38,7 @@ export default function AnimatedHero({ delay }: { delay: number }) {
                 className="h-full w-full rounded-xl bg-black"
                 muted
                 src="/videos/cox.mp4"
-                // autoPlay
+                autoPlay
                 playsInline
               />
               <div>Tonight</div>
