@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
+import { useEffect, useActionState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,43 +28,53 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
-
-const formSchema = z.object({
-  title: z
-    .string()
-    .min(2, "Bug title must be at least 5 characters.")
-    .max(32, "Bug title must be at most 32 characters."),
-  description: z
-    .string()
-    .min(2, "Description must be at least 20 characters.")
-    .max(100, "Description must be at most 100 characters."),
-});
+import { createMessage } from "@/actions/contact";
+import {
+  ContactActionResponse,
+  ContactDataType,
+  contactSchema,
+  formInitialState,
+} from "@/lib/schemas/contact";
 
 export function ContactForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-    },
+  const [formState, formAction, isPending] = useActionState<
+    ContactActionResponse,
+    FormData
+  >(createMessage, formInitialState);
+
+  const form = useForm<ContactDataType>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: formInitialState.data,
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-      position: "bottom-right",
-      classNames: {
-        content: "flex flex-col gap-2",
-      },
-      style: {
-        "--border-radius": "calc(var(--radius)  + 4px)",
-      } as React.CSSProperties,
-    });
-  }
+  // async function onSubmit(
+  //   data: z.infer<typeof formSchema>,
+  //   event: React.BaseSyntheticEvent,
+  // ) {
+  //   const formData = new FormData(event.target);
+  //   // formAction(formData);
+
+  // }
+
+  useEffect(() => {
+    if (formState.success) {
+      toast("Thank you! You submitted the following values:", {
+        description: (
+          <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
+            <code>{JSON.stringify(form.getValues(), null, 2)}</code>
+          </pre>
+        ),
+        position: "bottom-right",
+        classNames: {
+          content: "flex flex-col gap-2",
+        },
+        style: {
+          "--border-radius": "calc(var(--radius)  + 4px)",
+        } as React.CSSProperties,
+      });
+      form.reset();
+    }
+  }, [formState.success, form]);
 
   return (
     <Card className="w-full sm:max-w-md">
@@ -76,23 +85,30 @@ export function ContactForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          id="contact-form"
+          action={formAction}
+          // onSubmit={form.handleSubmit(onSubmit)}
+        >
           <FieldGroup>
             <Controller
-              name="title"
+              name="name"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">
-                    Bug Title
-                  </FieldLabel>
+                  <FieldLabel htmlFor="contact-form-name">Your name</FieldLabel>
                   <Input
                     {...field}
-                    id="form-rhf-demo-title"
+                    id="contact-form-name"
                     aria-invalid={fieldState.invalid}
-                    placeholder="Login button not working on mobile"
+                    placeholder="John Doe"
                     autoComplete="off"
                   />
+                  {formState.errors && (
+                    <FieldError
+                      errors={[{ message: formState.errors?.name }]}
+                    />
+                  )}
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -100,17 +116,41 @@ export function ContactForm() {
               )}
             />
             <Controller
-              name="description"
+              name="email"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-description">
-                    Description
+                  <FieldLabel htmlFor="contact-form-email">Email</FieldLabel>
+                  <Input
+                    {...field}
+                    id="contact-form-email"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="example@gmail.com"
+                    autoComplete="off"
+                  />
+                  {formState.errors && (
+                    <FieldError
+                      errors={[{ message: formState.errors?.email }]}
+                    />
+                  )}
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              name="message"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="contact-form-message">
+                    Message
                   </FieldLabel>
                   <InputGroup>
                     <InputGroupTextarea
                       {...field}
-                      id="form-rhf-demo-description"
+                      id="contact-form-message"
                       placeholder="I'm having an issue with the login button on mobile."
                       rows={6}
                       className="min-h-24 resize-none"
@@ -118,7 +158,7 @@ export function ContactForm() {
                     />
                     <InputGroupAddon align="block-end">
                       <InputGroupText className="tabular-nums">
-                        {field.value.length}/100 characters
+                        {field.value.length}/200 characters
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
@@ -126,6 +166,11 @@ export function ContactForm() {
                     Include steps to reproduce, expected behavior, and what
                     actually happened.
                   </FieldDescription>
+                  {formState.errors && (
+                    <FieldError
+                      errors={[{ message: formState.errors?.message }]}
+                    />
+                  )}
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -140,7 +185,7 @@ export function ContactForm() {
           <Button type="button" variant="outline" onClick={() => form.reset()}>
             Reset
           </Button>
-          <Button type="submit" form="form-rhf-demo">
+          <Button type="submit" form="contact-form" disabled={isPending}>
             Submit
           </Button>
         </Field>

@@ -1,6 +1,6 @@
-import MiniTv from "./mini-tv";
+import { MiniTv } from "./mini-tv";
 
-export default function Hero() {
+export function Hero() {
   return (
     <section className="flex max-w-5xl flex-col flex-wrap items-center justify-center gap-10 px-10 pb-20 sm:flex-row sm:gap-20">
       <div>

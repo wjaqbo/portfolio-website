@@ -7,8 +7,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
-import Link from "next/link";
 import { Button } from "./ui/button";
+import { MainNav } from "./main-nav";
 
 const OffcanvasMenu = () => {
   const [open, setOpen] = useState(false);
@@ -44,16 +44,7 @@ const OffcanvasMenu = () => {
       >
         <SheetContent side="left" className="p-6" aria-describedby={undefined}>
           <SheetTitle>Menu</SheetTitle>
-          <nav>
-            <ul className="space-y-4">
-              <li>
-                <Link href="/">Home</Link>
-              </li>
-              <li>
-                <Link href="/contact">Contact</Link>
-              </li>
-            </ul>
-          </nav>
+          <MainNav />
         </SheetContent>
       </motion.div>
     </Sheet>

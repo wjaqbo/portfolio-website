@@ -13,7 +13,7 @@ const transition = {
   ease: "easeInOut",
 } as Transition;
 
-export default function AnimatedHero({ delay }: { delay: number }) {
+export function MiniTv({ delay }: { delay: number }) {
   return (
     <>
       <div className="flex items-center justify-between perspective-midrange transform-3d">
