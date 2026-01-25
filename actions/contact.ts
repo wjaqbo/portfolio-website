@@ -32,8 +32,8 @@ export async function createMessage(
     console.log("errors", errors);
     console.log("state", state);
     return {
-      data: newMessage,
       success: true,
+      data: newMessage,
     };
   }
 

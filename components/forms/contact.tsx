@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useActionState } from "react";
+import { useEffect, useActionState, startTransition, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -42,22 +42,33 @@ export function ContactForm() {
     FormData
   >(createMessage, formInitialState);
 
+  const [uiSuccess, setUiSuccess] = useState(false);
+
   const form = useForm<ContactDataType>({
     resolver: zodResolver(contactSchema),
     defaultValues: formInitialState.data,
   });
 
-  // async function onSubmit(
-  //   data: z.infer<typeof formSchema>,
-  //   event: React.BaseSyntheticEvent,
-  // ) {
-  //   const formData = new FormData(event.target);
-  //   // formAction(formData);
-
-  // }
+  async function onSubmit(
+    data: ContactDataType,
+    event?: React.BaseSyntheticEvent,
+  ) {
+    const formData = new FormData(event?.target);
+    startTransition(() => {
+      formAction(formData);
+    });
+  }
 
   useEffect(() => {
-    if (formState.success) {
+    startTransition(() => {
+      if (formState.success) {
+        setUiSuccess(true);
+      }
+    });
+  }, [formState]);
+
+  useEffect(() => {
+    if (uiSuccess) {
       toast("Thank you! You submitted the following values:", {
         description: (
           <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
@@ -73,8 +84,11 @@ export function ContactForm() {
         } as React.CSSProperties,
       });
       form.reset();
+      startTransition(() => {
+        setUiSuccess(false);
+      });
     }
-  }, [formState.success, form]);
+  }, [form, uiSuccess]);
 
   return (
     <Card className="w-full sm:max-w-md">
@@ -87,8 +101,8 @@ export function ContactForm() {
       <CardContent>
         <form
           id="contact-form"
-          action={formAction}
-          // onSubmit={form.handleSubmit(onSubmit)}
+          // action={formAction}
+          onSubmit={form.handleSubmit(onSubmit)}
         >
           <FieldGroup>
             <Controller

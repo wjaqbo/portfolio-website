@@ -15,13 +15,13 @@ export const contactSchema = z.object({
 export type ContactDataType = z.infer<typeof contactSchema>;
 
 export type ContactActionResponse = {
+  success: boolean;
   data?: ContactDataType;
   errors?: Record<string, string>;
-  success: boolean;
 };
 
 export const formInitialState: ContactActionResponse = {
-  data: { name: "", email: "", message: "" },
   success: false,
+  data: { name: "", email: "", message: "" },
   errors: {},
 };
