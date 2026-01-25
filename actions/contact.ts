@@ -24,13 +24,10 @@ export async function createMessage(
       errors[String(issue.path[0])] = issue.message;
     });
     console.log("errors", errors);
-    console.log("state", state);
   }
   if (validated.success) {
     const newMessage = validated.data;
     console.log("New message:", newMessage);
-    console.log("errors", errors);
-    console.log("state", state);
     return {
       success: true,
       data: newMessage,
