@@ -93,9 +93,9 @@ export function ContactForm() {
   return (
     <Card className="w-full sm:max-w-md">
       <CardHeader>
-        <CardTitle>Bug Report</CardTitle>
+        <CardTitle>Make an appointment</CardTitle>
         <CardDescription>
-          Help us improve by reporting bugs you encounter.
+          AI Agent will help you with your reservation
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -165,7 +165,7 @@ export function ContactForm() {
                     <InputGroupTextarea
                       {...field}
                       id="contact-form-message"
-                      placeholder="I'm having an issue with the login button on mobile."
+                      placeholder="Tire change / Tire repair, date and hour"
                       rows={6}
                       className="min-h-24 resize-none"
                       aria-invalid={fieldState.invalid}
@@ -177,8 +177,8 @@ export function ContactForm() {
                     </InputGroupAddon>
                   </InputGroup>
                   <FieldDescription>
-                    Include steps to reproduce, expected behavior, and what
-                    actually happened.
+                    Include service type (eg. Tire change, Tire repair), date
+                    and time of your service.
                   </FieldDescription>
                   {formState.errors && (
                     <FieldError

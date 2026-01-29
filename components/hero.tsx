@@ -9,8 +9,8 @@ export function Hero() {
       </div>
       <div className="translate-x-10 translate-y-40">
         <MiniTv delay={0} />
-        {/* <MiniTv delay={1} /> */}
-        {/* <MiniTv delay={2} /> */}
+        {/* <MiniTv delay={2} />
+        <MiniTv delay={4} /> */}
       </div>
       <p className="basis-full leading-relaxed font-light">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quae,

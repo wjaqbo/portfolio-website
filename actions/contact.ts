@@ -7,17 +7,11 @@ export async function createMessage(
   state: ContactActionResponse,
   formData: FormData,
 ): Promise<ContactActionResponse> {
-  const name = formData.get("name");
-  const email = formData.get("email");
-  const message = formData.get("message");
-  await sleep(1000);
-
-  const validated = contactSchema.safeParse({
-    name: name,
-    email: email,
-    message: message,
-  });
+  const data = Object.fromEntries(formData);
+  const validated = contactSchema.safeParse(data);
   const errors: Record<string, string> = {};
+
+  await sleep(1000);
 
   if (!validated.success) {
     validated.error.issues.map((issue) => {
@@ -25,8 +19,25 @@ export async function createMessage(
     });
     console.log("errors", errors);
   }
+
   if (validated.success) {
     const newMessage = validated.data;
+
+    // process.env.N8N_WEBHOOK_URL!
+    const res = await fetch(
+      "http://localhost:5678/webhook/f1be1f08-43a4-4968-ae5e-b48d93e9d58a",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "https://portfolio.qbagency.fun/",
+        },
+        body: JSON.stringify(newMessage),
+      },
+    );
+
+    if (!res.ok) throw new Error("Failed to webhook submit");
+
     console.log("New message:", newMessage);
     return {
       success: true,

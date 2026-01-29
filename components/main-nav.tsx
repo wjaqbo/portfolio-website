@@ -10,6 +10,11 @@ export function MainNav() {
         <li>
           <Link href="/contact">Contact</Link>
         </li>
+        <li>
+          <Link href="https://n8n.qbagency.fun/" target="_blank">
+            AI Panel
+          </Link>
+        </li>
       </ul>
     </nav>
   );
