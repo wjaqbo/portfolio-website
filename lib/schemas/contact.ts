@@ -17,7 +17,7 @@ export const contactSchema = z
     // const existingUser = await db.user.findUnique({
     //   where: { email: data.email },
     // });
-    const existingUser = ctx.value.email === "dupa@wp.pl";
+    const existingUser = data.email === "dupa@wp.pl";
 
     if (existingUser) {
       ctx.addIssue({
