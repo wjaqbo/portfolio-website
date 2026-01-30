@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,28 +13,28 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/shared/components/ui/card";
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+} from "@/shared/components/ui/field";
+import { Input } from "@/shared/components/ui/input";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
   InputGroupTextarea,
-} from "@/components/ui/input-group";
-import { createMessage } from "@/actions/contact";
+} from "@/shared/components/ui/input-group";
+import { createMessage } from "@/modules/booking/actions/contact";
 import {
   ContactActionResponse,
   ContactDataType,
   contactSchema,
   formInitialState,
-} from "@/lib/schemas/contact";
+} from "@/modules/booking/domain/contact.schema";
 
 export function ContactForm() {
   const [formState, formAction, isPending] = useActionState<

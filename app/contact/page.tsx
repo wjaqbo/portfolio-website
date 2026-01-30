@@ -1,5 +1,5 @@
-import { ContactForm } from "@/components/forms/contact";
-import { Hero } from "@/components/hero";
+import { ContactForm } from "@/modules/booking/presentation/contact-form";
+import { Hero } from "@/shared/components/hero";
 
 export default function Home() {
   return (

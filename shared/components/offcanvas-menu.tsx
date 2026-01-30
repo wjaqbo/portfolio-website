@@ -5,7 +5,7 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/shared/components/ui/sheet";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { MainNav } from "./main-nav";

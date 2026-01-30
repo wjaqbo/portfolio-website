@@ -1,7 +1,10 @@
 "use server";
 
-import { contactSchema, ContactActionResponse } from "@/lib/schemas/contact";
-import { sleep } from "@/lib/utils/sleep";
+import {
+  contactSchema,
+  ContactActionResponse,
+} from "@/modules/booking/domain/contact.schema";
+import { sleep } from "@/shared/lib/utils/sleep";
 
 export async function createMessage(
   state: ContactActionResponse,
