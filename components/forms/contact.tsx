@@ -46,6 +46,7 @@ export function ContactForm() {
 
   const form = useForm<ContactDataType>({
     resolver: zodResolver(contactSchema),
+    // resolver: (data) => ({ values: data, errors: {} }), //turnig off client-side validation
     defaultValues: formInitialState.data,
   });
 
@@ -91,7 +92,7 @@ export function ContactForm() {
   }, [form, uiSuccess]);
 
   return (
-    <Card className="w-full sm:max-w-md">
+    <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>Make an appointment</CardTitle>
         <CardDescription>
@@ -99,11 +100,7 @@ export function ContactForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form
-          id="contact-form"
-          // action={formAction}
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
+        <form id="contact-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
             <Controller
               name="name"
@@ -195,14 +192,20 @@ export function ContactForm() {
         </form>
       </CardContent>
       <CardFooter>
-        <Field orientation="horizontal">
-          <Button type="button" variant="outline" onClick={() => form.reset()}>
-            Reset
-          </Button>
-          <Button type="submit" form="contact-form" disabled={isPending}>
-            Submit
-          </Button>
-        </Field>
+        <FieldGroup>
+          <Field orientation="responsive">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => form.reset()}
+            >
+              Reset
+            </Button>
+            <Button type="submit" form="contact-form" disabled={isPending}>
+              Submit
+            </Button>
+          </Field>
+        </FieldGroup>
       </CardFooter>
     </Card>
   );

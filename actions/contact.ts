@@ -8,7 +8,7 @@ export async function createMessage(
   formData: FormData,
 ): Promise<ContactActionResponse> {
   const data = Object.fromEntries(formData);
-  const validated = contactSchema.safeParse(data);
+  const validated = await contactSchema.safeParseAsync(data);
   const errors: Record<string, string> = {};
 
   await sleep(1000);
